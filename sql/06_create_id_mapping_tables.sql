@@ -50,12 +50,14 @@ FROM discharge_disposition_mapping;
 SELECT COUNT(*) AS total_admission_source_mappings
 FROM admission_source_mapping;
 
+SELECT COUNT(*) AS total_admission_type_mappings
+FROM admission_type_mapping;
+
 SELECT * FROM discharge_disposition_mapping
 ORDER BY discharge_disposition_id;
 
 SELECT * FROM admission_source_mapping
 ORDER BY admission_source_id;
 
-SELECT *
-FROM admission_type_mapping
+SELECT * FROM admission_type_mapping
 ORDER BY admission_type_id;
