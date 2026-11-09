@@ -19,28 +19,24 @@ SELECT
 FROM raw_diabetic_data;
 
 
--- 3. CHECK ACTUAL NULL VALUES
+-- 3. CHECK ACTUAL NULL VALUES AND QUESTION MARK MARKERS
 SELECT
-    SUM(encounter_id IS NULL) AS missing_encounter_id,
-    SUM(patient_nbr IS NULL) AS missing_patient_nbr,
-    SUM(gender IS NULL) AS missing_gender,
-    SUM(age IS NULL) AS missing_age,
-    SUM(readmitted IS NULL) AS missing_readmitted
+        SUM(weight = '?' OR weight IS NULL) AS missing_weight,
+        SUM(age = '?' OR age IS NULL) AS missing_age,
+        SUM(gender = '?' OR gender IS NULL) AS missing_gender,
+        SUM(readmitted = '?' OR readmitted IS NULL) AS missing_readmitted,
+        SUM(race = '?' OR race IS NULL) AS missing_race,
+        SUM(payer_code = '?' OR payer_code IS NULL) AS missing_payer_code,
+        SUM(medical_specialty = '?' OR medical_specialty IS NULL) AS missing_specialty,
+        SUM(diag_1 = '?' OR diag_1 IS NULL) AS missing_diag_1,
+        SUM(diag_2 = '?' OR diag_2 IS NULL) AS missing_diag_2,
+        SUM(diag_3 = '?' OR diag_3 IS NULL) AS missing_diag_3
 FROM raw_diabetic_data;
 
 
--- 4. CHECK QUESTION MARK MARKERS
-SELECT
-    SUM(race = '?') AS missing_race,
-    SUM(payer_code = '?') AS missing_payer_code,
-    SUM(medical_specialty = '?') AS missing_specialty,
-    SUM(diag_1 = '?') AS missing_diag_1,
-    SUM(diag_2 = '?') AS missing_diag_2,
-    SUM(diag_3 = '?') AS missing_diag_3
-FROM raw_diabetic_data;
 
 
--- 5. CHECK GENDER VALUES
+-- 4. CHECK GENDER VALUES
 SELECT
     gender,
     COUNT(*) AS record_count
@@ -49,7 +45,7 @@ GROUP BY gender
 ORDER BY record_count DESC;
 
 
--- 6. CHECK READMISSION VALUES
+-- 5. CHECK READMISSION VALUES
 SELECT
     readmitted,
     COUNT(*) AS record_count
@@ -58,7 +54,7 @@ GROUP BY readmitted
 ORDER BY record_count DESC;
 
 
--- 7. CHECK ADMISSION TYPE VALUES
+-- 6. CHECK ADMISSION TYPE VALUES
 SELECT
     admission_type_id,
     COUNT(*) AS record_count
@@ -67,7 +63,7 @@ GROUP BY admission_type_id
 ORDER BY admission_type_id;
 
 
--- 8. CHECK INVALID AGE CATEGORIES
+-- 7. CHECK INVALID AGE CATEGORIES
 SELECT
     age,
     COUNT(*) AS record_count
@@ -80,7 +76,7 @@ WHERE age NOT IN (
 GROUP BY age;
 
 
--- 9. CHECK ENCOUNTERS WITH MISSING IDENTIFIERS
+-- 8. CHECK ENCOUNTERS WITH MISSING IDENTIFIERS
 SELECT COUNT(*) AS records_with_missing_identifiers
 FROM raw_diabetic_data
 WHERE encounter_id IS NULL
