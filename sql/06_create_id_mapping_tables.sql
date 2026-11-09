@@ -10,22 +10,52 @@ CREATE TABLE IF NOT EXISTS admission_type_mapping (
     description VARCHAR(100)
 );
 
-INSERT INTO admission_type_mapping
-    (admission_type_id, description)
-VALUES
-    ('1', 'Emergency'),
-    ('2', 'Urgent'),
-    ('3', 'Elective'),
-    ('4', 'Newborn'),
-    ('5', 'Not Available'),
-    ('6', 'NULL'),
-    ('7', 'Trauma Center'),
-    ('8', 'Not Mapped')
-ON DUPLICATE KEY UPDATE
-    description = VALUES(description);
+CREATE TABLE IF NOT EXISTS discharge_disposition_mapping (
+    discharge_disposition_id INT PRIMARY KEY,
+    description VARCHAR(500)
+);
 
+CREATE TABLE IF NOT EXISTS admission_source_mapping (
+    admission_source_id INT PRIMARY KEY,
+    description VARCHAR(500)
+);
 
--- Check the mapping table
+LOAD DATA LOCAL INFILE
+'C:/Projects/healthcare-data-analytics/data/processed/admission_type_mapping.csv'
+INTO TABLE admission_source_mapping
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE
+'C:/Projects/healthcare-data-analytics/data/processed/discharge_disposition_mapping.csv'
+INTO TABLE discharge_disposition_mapping
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+
+LOAD DATA LOCAL INFILE
+'C:/Projects/healthcare-data-analytics/data/processed/admission_source_mapping.csv'
+INTO TABLE admission_source_mapping
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 LINES;
+
+SELECT COUNT(*) AS total_discharge_mappings
+FROM discharge_disposition_mapping;
+
+SELECT COUNT(*) AS total_admission_source_mappings
+FROM admission_source_mapping;
+
+SELECT * FROM discharge_disposition_mapping
+ORDER BY discharge_disposition_id;
+
+SELECT * FROM admission_source_mapping
+ORDER BY admission_source_id;
+
 SELECT *
 FROM admission_type_mapping
 ORDER BY admission_type_id;
