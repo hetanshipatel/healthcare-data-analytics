@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS admission_source_mapping (
 
 LOAD DATA LOCAL INFILE
 'C:/Projects/healthcare-data-analytics/data/processed/admission_type_mapping.csv'
-INTO TABLE admission_source_mapping
+INTO TABLE admission_type_mapping
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\r\n'
